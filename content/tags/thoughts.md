@@ -1,0 +1,1 @@
+Just general thoughts about things. Not necessarily fully formed or analytical in nature, just musings, often opinionated.

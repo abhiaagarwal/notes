@@ -1,8 +1,7 @@
 ---
 tags:
   - docker
-  - macos
-  - virtualization
+  - observation
 title: Docker on MacOS with close-to-native performance
 ---
 I wanted to run Docker containers fast + close to native performance for working with Linux projects without dealing with the hassle of figuring out the equivalent dependencies on MacOS. This was trivial on Intel-based Macbooks, but is now a pain in the ass with the M-series macbooks.

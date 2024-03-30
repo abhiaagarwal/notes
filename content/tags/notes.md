@@ -1,0 +1,1 @@
+Notes about various topics, both for my book-keeping and to cite any sources or articles I found interesting. I wouldn't consider these comprehensive or pointing in any one direction or opinions, just a dump of bullet points.
