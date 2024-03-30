@@ -62,9 +62,15 @@ button#explorer {
       transform 0.35s ease,
       opacity 0.2s ease;
     & li > a {
+      font-size: 0.90rem;
       color: var(--dark);
       opacity: 0.75;
       pointer-events: all;
+
+      &.internal {
+        opacity: 1.00;
+        background-color: inherit;
+      }
     }
   }
 }
