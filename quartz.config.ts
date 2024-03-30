@@ -20,9 +20,9 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Schibsted Grotesk",
-        body: "Source Sans Pro",
-        code: "IBM Plex Mono",
+        header: "Lora",
+        body: "Fira Sans",
+        code: "Fira Code",
       },
       colors: {
         lightMode: {
@@ -32,7 +32,7 @@ const config: QuartzConfig = {
           darkgray: "#4e4e4e",
           dark: "#2b2b2b",
           secondary: "#a35fc6",
-          tertiary: "#FF85B0",
+          tertiary: "#FF6C9F",
           highlight: "rgba(143, 159, 169, 0.15)",
         },
         darkMode: {
@@ -42,7 +42,7 @@ const config: QuartzConfig = {
           darkgray: "#d4d4d4",
           dark: "#ebebec",
           secondary: "#a35fc6",
-          tertiary: "#FF85B0",
+          tertiary: "#FF6C9F",
           highlight: "rgba(143, 159, 169, 0.15)",
         },
       },

@@ -85,7 +85,6 @@ svg {
 
   & div > a {
     color: var(--secondary);
-    font-family: var(--headerFont);
     font-size: 0.95rem;
     font-weight: $semiBoldWeight;
     line-height: 1.5rem;
@@ -106,7 +105,6 @@ svg {
     padding-right: 0;
     display: flex;
     align-items: center;
-    font-family: var(--headerFont);
 
     & span {
       font-size: 0.95rem;
