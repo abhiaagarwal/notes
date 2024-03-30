@@ -3,9 +3,11 @@ tags:
   - docker
   - macos
   - virtualization
-title: How to run docker on MacOS with close-to-native performance
+title: Docker on MacOS with close-to-native performance
 ---
-I wanted to run docker containers fast + close to native performance for working with linux projects without dealing with the hassle of figuring out the equivalent dependencies on macos.
+I wanted to run Docker containers fast + close to native performance for working with Linux projects without dealing with the hassle of figuring out the equivalent dependencies on MacOS. This was trivial on Intel-based Macbooks, but is now a pain in the ass with the M-series macbooks.
+
+Here's what I found:
 
 ```sh
 brew install colima

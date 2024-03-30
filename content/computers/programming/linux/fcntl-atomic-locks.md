@@ -1,15 +1,15 @@
 ---
 tags:
   - linux
-description: File-locking on Linux is not atomic and FIFO, meaning readers and writers can claim locks in any order, running contrary to what the behavior should appear like.
-title: File-locking on Linux via `fcntl` is not atomic.
+description: File-locking on Linux is not atomic and FIFO, meaning readers and writers can claim locks in any order, running contrary to what the behavior should be.
+title: File-locking is not atomic and FIFO.
 ---
-file-locking on linux is NOT atomic, contrary to what the docs may tell you.
+File-locking on linux is NOT atomic and FIFO, contrary to what the docs may tell you.
 
 To demonstrate, consider this toy server and client.
 
 **Server**
-```{python}
+```python
 import socket
 import os
 import fcntl
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 ```
 **Client**
 
-```{python}
+```python
 import socket
 import os
 import fcntl
@@ -106,6 +106,14 @@ if __name__ == "__main__":
 
 *This is written in Python, but is a mirror of how the program could be written in C*
 
-In this case, the client initializes a `memfd` and passes it to server process via `unix domain sockets` for IPC purposes. The server then takes a lock on the memfd, does a write on it, then releases the lock and immediately tries to claim it. Since the client claimed the lock before the server re-claimed the lock, it should claim the lock immediately after. 
+In this case, the client initializes a `memfd` and passes it to server process via UDP and `unix domain sockets` using `SCM_RIGHTS` for IPC purposes. The server then takes a lock on the `memfd`, does a write on it, then releases the lock and immediately tries to claim it. Since the client claimed the lock before the server re-claimed the lock, it should claim the lock immediately after. The client should then read the data inside the `memfd`, and then "flush" the output by setting the cursor, which is shared between the two processes (since both the descriptors share the same *open file description*).
 
-In practice, it does not work like this. Gotta use something like `eventfd` as mechanism for process-based synchronization (or futexes).
+In practice, this leads to messy race conditions. The order in which they run is completely non-deterministic. Since I manipulate the file cursor to essentially signal each process, I can determine which file actually got the lock atomically – I measure this with `whoops_count`. With 100 iterations, I repeatedly got `whoops_count`s of around 400, making it totally useless for real-world workloads.
+
+This also doesn't work with `flock`-based locks, which are completely separate from `fcntl` locks and do not interact with each-other (theoretically). `flock` locks are even more useless, since it isn't possible to upgrade locks automically (going from a shared lock to an exclusive lock). `lockf` uses `fcntl` under the hood, providing a much nicer interface.
+
+The linux source code claims that [while the atomic FIFO behavior isn't required by POSIX, they support it anyways because it makes sense](https://github.com/torvalds/linux/blob/7033999ecd7b8cf9ea59265035a0150961e023ee/fs/locks.c#L782-L795), . A `git blame` reveals this comment was written over 19 years ago, and that's inaccurate in that the commit where that comment comes from is the first commit that git ever used. So that comment could feasibly be 20+ years old.
+
+My guess is that it really was FIFO, once upon a time, and maybe the change to the totally fair scheduler or something underlying caused the behavior to change. Relying on file locking, a syscall, for synchronization is kinda stupid anyways when it should be being done in the userspace for performance reasons.
+
+So, in short, you gotta use something like `eventfd` as mechanism for process-based synchronization (or futexes). Oh well :(
