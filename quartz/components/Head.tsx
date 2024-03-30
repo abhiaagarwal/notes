@@ -16,7 +16,6 @@ export default (() => {
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
 
     const iconPath = joinSegments(baseDir, "static/icon.png")
-    const ogImagePath = `https://${cfg.baseUrl}/static/og-image.png`
 
     return (
       <head>
@@ -32,10 +31,7 @@ export default (() => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        {cfg.baseUrl && <meta property="og:image" content={ogImagePath} />}
-        <meta property="og:width" content="1200" />
-        <meta property="og:height" content="675" />
-        <link rel="icon" href={iconPath} />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤔</text></svg>" />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
         {css.map((href) => (
