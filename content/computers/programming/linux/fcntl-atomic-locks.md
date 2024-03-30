@@ -1,6 +1,7 @@
 ---
 tags:
   - linux
+  - posix
 description: File-locking on Linux is not atomic and FIFO, meaning readers and writers can claim locks in any order, running contrary to what the behavior should be.
 title: File-locking is not atomic and FIFO.
 ---
