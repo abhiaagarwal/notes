@@ -6,9 +6,7 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   footer: Component.Footer({
-    links: {
-      "Github": "https://github.com/abhiaagarwal",
-    },
+    links: {}
   }),
 }
 
@@ -19,6 +17,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
+    Component.Giscus(),
   ],
   left: [
     Component.PageTitle(),
