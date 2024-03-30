@@ -40,9 +40,9 @@ Unix Domain Sockets is the killer feature here. Through the use of the `sendmsg`
 
 Here's our **producer/sender**:
 
-```C
+```c
 // this can also be allocated dynamically, but must be done with more care
-\#DEFINE FDS_EXPECTED ...
+#DEFINE FDS_EXPECTED ...
 int fds[FDS_EXPECTED] = {...};
 
 struct msghdr msgh;
@@ -88,9 +88,9 @@ It's disgusting. I know. It uses a heavily macro-based API to manipulate the var
 
 Moving on to the **consumer/receiver**:
 
-```C
+```c
 // I pretend this is fixed, but in general, it doesn't have to be.
-\#DEFINE FDS_EXPECTED ...
+#DEFINE FDS_EXPECTED ...
 int fds[FDS_EXPECTED];
 
 struct msghdr msgh = {0};
