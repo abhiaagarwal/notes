@@ -30,7 +30,12 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       const segments: (string | JSX.Element)[] = []
 
       if (fileData.dates) {
-        segments.push(formatDate(getDate(cfg, fileData)!, cfg.locale))
+        const publishedDate = fileData.dates.published
+        segments.push(`Published ${formatDate(publishedDate, cfg.locale)}`)
+        const modifiedDate = fileData.dates.modified;
+        if (modifiedDate) {
+            segments.push(`modified ${formatDate(fileData.dates.modified, cfg.locale)}`)
+        }
       }
 
       // Display reading time if enabled
