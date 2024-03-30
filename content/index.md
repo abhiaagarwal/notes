@@ -13,7 +13,9 @@ If you're interested in what I have to say in more of a long-form format, check 
 Please feel free to click around and find whatever tickles your fancy. There's also a search bar. To help guide you, here's a list of tags I use to try and organize anything I create.
 
 [[tags/notes]]
+
 [[tags/thoughts]]
+
 [[tags/observations]]
 
 Enjoy :)
