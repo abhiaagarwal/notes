@@ -1,6 +1,6 @@
 ---
 tags:
-  - personal
+  - thoughts
 title: Why I want to write
 ---
 I've been skilled my whole life with "technical" things. My whole life, I've breezed through classes in math, physics, economics, etc. I sleepwalked my way through nearly 15 years of schooling and achieved nearly everything I've wanted. 

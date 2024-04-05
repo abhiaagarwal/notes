@@ -30,11 +30,11 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       const segments: (string | JSX.Element)[] = []
 
       if (fileData.dates) {
-        const publishedDate = fileData.dates.published
-        segments.push(`Published ${formatDate(publishedDate, cfg.locale)}`)
+        const createdDate = fileData.dates.created
+        segments.push(`Published ${formatDate(createdDate, cfg.locale)}`)
         const modifiedDate = fileData.dates.modified;
         if (modifiedDate) {
-            segments.push(`modified ${formatDate(fileData.dates.modified, cfg.locale)}`)
+            segments.push(`modified ${formatDate(modifiedDate, cfg.locale)}`)
         }
       }
 
