@@ -1,0 +1,1 @@
+Stuff about technology. I'm mostly focusing on programming, but I do have a fascination with hardware, and not enough money or skill to really focus on it.

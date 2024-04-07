@@ -1,1 +1,1 @@
-Just general thoughts about things. Not necessarily fully formed or analytical in nature, just musings, often opinionated.
+Just general thoughts about things. Not necessarily fully formed or analytical in nature, just musings, often opinionated. I try to keep these as a snapshot of my mindset at a given time, but I will correct any factual errors. If I have new additional thoughts, I will do this with an errata in the footnotes or new section, and not try to overwrite an old perspective.

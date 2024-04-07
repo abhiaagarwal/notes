@@ -1,6 +1,5 @@
 ---
 tags:
-  - docker
   - observations
 title: Docker on MacOS with close-to-native performance
 ---
