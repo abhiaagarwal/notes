@@ -3,7 +3,7 @@ import { QuartzComponentConstructor } from "./types"
 export default (() => {
   function Footer() {
     return (
-     <script 
+      <script
         src="https://giscus.app/client.js"
         data-repo="abhiaagarwal/notes"
         data-repo-id="R_kgDOLnXmLA"
@@ -17,8 +17,8 @@ export default (() => {
         data-lang="en"
         data-loading="lazy"
         crossorigin="anonymous"
-        async>
-    </script>
+        async
+      ></script>
     )
   }
 

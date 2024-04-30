@@ -9,25 +9,26 @@ import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
 const GithubSource: QuartzComponent = ({ displayClass, fileData }: QuartzComponentProps) => {
-return (
-  <div class={classNames(displayClass, "github-source")}>
-    <h3>Source code</h3>
-    <ul>
-      <li>
-        <a href={`https://github.com/abhiaagarwal/notes/blob/main/content/${fileData.slug}.md`}>
-          Source
-        </a>
-      </li>
-      <li>
-        <a href={`https://github.com/abhiaagarwal/notes/commits/main/content/${fileData.slug}.md`}>
-          History
-        </a>
-      </li>
-    </ul>
-  </div>
-)
+  return (
+    <div class={classNames(displayClass, "github-source")}>
+      <h3>Source code</h3>
+      <ul>
+        <li>
+          <a href={`https://github.com/abhiaagarwal/notes/blob/main/content/${fileData.slug}.md`}>
+            Source
+          </a>
+        </li>
+        <li>
+          <a
+            href={`https://github.com/abhiaagarwal/notes/commits/main/content/${fileData.slug}.md`}
+          >
+            History
+          </a>
+        </li>
+      </ul>
+    </div>
+  )
 }
-
 
 GithubSource.css = style
 export default (() => GithubSource) satisfies QuartzComponentConstructor
