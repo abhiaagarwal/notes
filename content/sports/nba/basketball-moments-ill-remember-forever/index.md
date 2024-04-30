@@ -1,0 +1,1 @@
+I watch a lot of basketball. This is an attempt to catalogue every moment that affected me on a personal level and possibly changed my life. 
