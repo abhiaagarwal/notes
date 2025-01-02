@@ -98,7 +98,7 @@ __engine: AsyncEngine = None
 
 
 async def get_engine() -> AsyncGenerator[AsyncEngine]:
-    yield engine
+    yield __engine
 
 
 @asynccontextmanager
@@ -173,21 +173,21 @@ The downside of this approach is that you can't use the database outside of Fast
 > import asyncio
 >
 > async def periodic_task(shutdown_event: asyncio.Event) -> None:
-> 	timeout = 100
-> 	while not shutdown_event.is_set():
-> 		try:
-> 			await asyncio.wait_for(shutdown_event.wait(), timeout=timeout)
-> 			break
-> 	  	except TimeoutError:
-> 	 		... # your actual periodic task
+>     timeout = 100
+>     while not shutdown_event.is_set():
+>         try:
+>             await asyncio.wait_for(shutdown_event.wait(), timeout=timeout)
+>             break
+>         except TimeoutError:
+>             ... # your actual periodic task
 >
 >
 > async def lifespan() -> AsyncGenerator[AppState]:
-> 	shutdown_event = asyncio.Event()
->   async with asyncio.TaskGroup() as tg:
-> 		tg.create_task(my_periodic_task(shutdown_event))
->       yield
->       shutdown_event.set()
+>     shutdown_event = asyncio.Event()
+>     async with asyncio.TaskGroup() as tg:
+>         tg.create_task(my_periodic_task(shutdown_event))
+>         yield
+>         shutdown_event.set()
 > ```
 >
 > The upside of this design being that your TaskGroup will now clean itself up when the lifespan exits. You can additionally pass an object from the lifespan into the defined `periodic_task` (like a database engine), meaning we keep the lifespan philosophy intact.
