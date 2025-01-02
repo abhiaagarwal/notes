@@ -3,9 +3,10 @@ title: C++ doesn't have destructive moves.
 tags:
   - thoughts
 ---
+
 C++'s greatest innovation is RAII, "Resource Acquisition is Initialization." Despite its name, RAII has little to do with initialization, but rather destruction. In a RAII paradigm, an objects lifetime is tied to its scope, and its destructor is called when the scope ends. This is immensely helpful, as anyone who has seriously written C can tell you that a solid 90% of C code is just cleanup.
 
-Unfortunately, C++'s ability to be wrong about everything means that it also suffers a big footgun with the lack of destructive moves. 
+Unfortunately, C++'s ability to be wrong about everything means that it also suffers a big footgun with the lack of destructive moves.
 
 Now, I'm gonna tell you the reason this surprised me is that I'm really used to Rust these days. The concept of a "non-destructive" move doesn't really make sense to me, since I'm used to move semantics... moving data.
 
@@ -29,7 +30,7 @@ int main() {
 	}
 	return 0;
 }
- ```
+```
 
 You may think the answer to this question is obvious:
 

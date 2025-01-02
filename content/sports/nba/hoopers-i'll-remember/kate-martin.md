@@ -3,6 +3,7 @@ title: "Kate Martin: Dirk Herwitzki"
 tags:
   - thoughts
 ---
+
 NCAAW Final 4 2024. UConn-Iowa. Caitlin Clark is hard carrying her team, but she needs someone to step up and hit some timely shots.
 
 Enter Kate Martin.

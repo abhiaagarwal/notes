@@ -3,36 +3,38 @@ title: Sending file descriptors through unix domain sockets
 tags:
   - observations
 ---
+
 Unix domain sockets is the third type of socket (after TCP and UDP) which enables IPC. It also has a pretty unique power in that it can duplicate file descriptors across processes.
 
-#  A primer on files in Linux
+# A primer on files in Linux
 
-A "file descriptor" is an abstraction over an object that you can manipulate the data inside of it. It's kinda like a `malloc`'d block of memory, except instead of being tied to the virtual address space of your program, it's tied to the external context of your operating system. Note that I'm using "kinda" very liberally here, for there are an uncountably infinite amount of "ifs" and "buts" attached to this. 
+A "file descriptor" is an abstraction over an object that you can manipulate the data inside of it. It's kinda like a `malloc`'d block of memory, except instead of being tied to the virtual address space of your program, it's tied to the external context of your operating system. Note that I'm using "kinda" very liberally here, for there are an uncountably infinite amount of "ifs" and "buts" attached to this.
 
 Indeed, you can treat your file descriptor like a block of memory through `mmap`ing with little care if you so feel.
 
 Fun fact: At least on linux, `malloc` uses a `mmap`ed file internally (well it depends, see this [nice article](https://utcc.utoronto.ca/%7Ecks/space/blog/unix/SbrkVersusMmap) for a writeup for how convoluted the whole thing is). So it's really all files all the way down.
 
-Of course, it's a bit more complicated than that. At least on Linux, a file descriptor is an interface to an *open file description*, which is a kernel abstraction. One *descriptor* can point to one *description*, which can point to one file only. Yet one file could theoretically have multiple *descriptions* to it. If two files in two separate processes `open` the same file simultaneously, they will have two independent file *descriptions*, and a *descriptor* that points to that description. Hell, you could even have multiple *descriptions* in a program pointing to the same file (with its each own independent *descriptor*).
+Of course, it's a bit more complicated than that. At least on Linux, a file descriptor is an interface to an _open file description_, which is a kernel abstraction. One _descriptor_ can point to one _description_, which can point to one file only. Yet one file could theoretically have multiple _descriptions_ to it. If two files in two separate processes `open` the same file simultaneously, they will have two independent file _descriptions_, and a _descriptor_ that points to that description. Hell, you could even have multiple _descriptions_ in a program pointing to the same file (with its each own independent _descriptor_).
 
-A *description* shares the same internal file offset (if one *descriptor* changes the *description*'s offset with `lseek`, a *descriptor* pointing to that same *description* will immediately see it) as well as any flags. You could `open` a file in `O_APPEND` more, and then that same file could then be opened in a different context as `O_NONBLOCK`. 
+A _description_ shares the same internal file offset (if one _descriptor_ changes the _description_'s offset with `lseek`, a _descriptor_ pointing to that same _description_ will immediately see it) as well as any flags. You could `open` a file in `O_APPEND` more, and then that same file could then be opened in a different context as `O_NONBLOCK`.
 
-POSIX as a whole guarantees that `read` and `write` calls [are atomic](https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/functions/V2_chap02.html#tag_15_09_07), meaning that you can never observe the intermediary state between *before the operation* and *after the operation*. This does not necessarily mean that each call will complete, as the various `read`/`write` syscalls return a value indicating how many bytes they were actually able to perform. 
+POSIX as a whole guarantees that `read` and `write` calls [are atomic](https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/functions/V2_chap02.html#tag_15_09_07), meaning that you can never observe the intermediary state between _before the operation_ and _after the operation_. This does not necessarily mean that each call will complete, as the various `read`/`write` syscalls return a value indicating how many bytes they were actually able to perform.
 
 It gets even more complicated when you consider the page cache, as when you perform an operation on a file, it first gets propagated to the page cache, and then to the underlying file. If your file was `open`ed in `O_DIRECT | O_SYNC`, then, uh...
 
 ¯\\\_(ツ)\_/¯
 
-Point is that reasoning about files is inherently an unsafe process. You can't (normally) make any real guarantees that if you're manipulating one, that it will continue to exist. Another process could come right in and destroy it. Its lifetime is external to yours, and interfacing with an object whose lifetime you don't own and exists in a constant global, mutable context is a scary, scary prospect. 
+Point is that reasoning about files is inherently an unsafe process. You can't (normally) make any real guarantees that if you're manipulating one, that it will continue to exist. Another process could come right in and destroy it. Its lifetime is external to yours, and interfacing with an object whose lifetime you don't own and exists in a constant global, mutable context is a scary, scary prospect.
 
 # What about MacOS or Windows?
 
-I wish I knew the internals for how this is done on MacOS. I don't have a clue, nor do I know how to find out. Please leave a comment if you do know :) 
+I wish I knew the internals for how this is done on MacOS. I don't have a clue, nor do I know how to find out. Please leave a comment if you do know :)
 
-Don't tell me how it works on Windows. I don't care nor do I want to know. I'm an Unix guy at heart, once I get DLSS Frame Generation on Linux I'll never touch a Windows machine again willingly. 
+Don't tell me how it works on Windows. I don't care nor do I want to know. I'm an Unix guy at heart, once I get DLSS Frame Generation on Linux I'll never touch a Windows machine again willingly.
 
 # But why?
-We may not be able to control the lifetime of the underlying file, but we can control the lifetime of a descriptor that points to it. This is a stronger guarantee than whatever we were dealing with before. If you create a file owned by your program (via the `memfd_create`) call, you now own the entire lifetime of the "file". This also kinda applies to both the POSIX and SysV shared memory segments, though the lifetime of them is a little more murky in that you have to manually destroy them when done. In practice though, if careful, you can achieve similar-ish results. 
+
+We may not be able to control the lifetime of the underlying file, but we can control the lifetime of a descriptor that points to it. This is a stronger guarantee than whatever we were dealing with before. If you create a file owned by your program (via the `memfd_create`) call, you now own the entire lifetime of the "file". This also kinda applies to both the POSIX and SysV shared memory segments, though the lifetime of them is a little more murky in that you have to manually destroy them when done. In practice though, if careful, you can achieve similar-ish results.
 
 Unix Domain Sockets is the killer feature here. Through the use of the `sendmsg` and `recvmsg` syscalls (which the `read` and `write` syscalls are just a nicer abstraction over), we can duplicate the file descriptor through the `SCM_RIGHTS` control message.
 
@@ -82,7 +84,7 @@ if(bytes_sent == -1) {
 }
 ```
 
-It's disgusting. I know. It uses a heavily macro-based API to manipulate the various parts of the message we send. 
+It's disgusting. I know. It uses a heavily macro-based API to manipulate the various parts of the message we send.
 
 Moving on to the **consumer/receiver**:
 
