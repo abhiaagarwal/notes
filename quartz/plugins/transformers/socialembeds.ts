@@ -33,13 +33,12 @@ export const SocialEmbeds: QuartzTransformerPlugin<Options> = (userOpts?: Option
     externalResources() {
       return {
         js: [
-          twitterEmbed
-            && {
-                src: "https://platform.twitter.com/widgets.js",
-                loadTime: "beforeDOMReady",
-                contentType: "external",
-                async: true,
-              }
+          twitterEmbed && {
+            src: "https://platform.twitter.com/widgets.js",
+            loadTime: "beforeDOMReady",
+            contentType: "external",
+            async: true,
+          },
         ].filter(Boolean) as any[],
       }
     },

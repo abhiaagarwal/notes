@@ -15,7 +15,8 @@ const config: QuartzConfig = {
     locale: "en-US",
     baseUrl: "notes.abhi.rodeo",
     ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "modified",
+    defaultDateType: "created",
+    generateSocialImages: false,
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
@@ -34,6 +35,7 @@ const config: QuartzConfig = {
           secondary: "#a35fc6",
           tertiary: "#FF6C9F",
           highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "#fff23688",
         },
         darkMode: {
           light: "#212529",
@@ -44,6 +46,7 @@ const config: QuartzConfig = {
           secondary: "#a35fc6",
           tertiary: "#FF6C9F",
           highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "#b3aa0288",
         },
       },
     },
@@ -54,7 +57,6 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["git", "frontmatter", "filesystem"],
       }),
-      Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
         theme: {
           light: "catppuccin-latte",
@@ -67,7 +69,8 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.SocialEmbeds({ embeds: ["twitter"]}),
+      Plugin.SocialEmbeds({ embeds: ["twitter"] }),
+      Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [

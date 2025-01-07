@@ -5,8 +5,20 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
+  afterBody: [
+    Component.Comments({
+      provider: "giscus",
+      options: {
+        repo: "abhiaagarwal/notes",
+        repoId: "R_kgDOLnXmLA",
+        category: "Comments",
+        categoryId: "DIC_kwDOLnXmLM4CeVd3",
+        mapping: "pathname",
+      },
+    }),
+  ],
   footer: Component.Footer({
-    links: {}
+    links: {},
   }),
 }
 
@@ -17,7 +29,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    Component.Giscus(),
   ],
   left: [
     Component.PageTitle(),
