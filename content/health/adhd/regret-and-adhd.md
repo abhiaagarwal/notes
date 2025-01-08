@@ -3,6 +3,7 @@ tags:
   - thoughts
 title: Regret and ADHD
 description: I got diagnosed with ADHD when I was 21 years old. I was illuminating, and extremely frustrating.
+draft: true
 ---
 
 I've always been a person who kinda, "does their own thing". You could call it selfishness. You could call it eccentricity. The truth is probably somewhere in the middle.
