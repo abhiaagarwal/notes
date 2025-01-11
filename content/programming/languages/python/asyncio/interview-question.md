@@ -3,7 +3,7 @@ title: The only python interview question you will ever need
 tags:
   - thoughts
 ---
-I've been thinking recently about Python API design (as one does, in their mid 20s). I'm someone who cares deeply writing performant code, so I often turn to [[threading|`threading, multiprocessing`]] or `asyncio` when dealing with IO-bound work (which is the majority of python applications). 
+I've been thinking recently about Python API design (as one does, in their mid 20s). I'm someone who cares deeply writing performant code, so I often turn to [[threading|threading, multiprocessing]] or asyncio when dealing with IO-bound work (which is the majority of python applications). 
 
 I was looking at the API design for `concurrent.futures.ProcessPoolExecutor/ThreadPoolExecutor.submit()`, which looks something like:
 
@@ -16,7 +16,7 @@ with ProcessPoolExecutor() as executor:
     task = executor.submit(cpu_bound_function, 5, keyword_arg=10)
 ```
 
-Versus `asyncio.TaskGroup.create_task()`, which looks something like:
+And `asyncio.TaskGroup.create_task()`, which looks something like:
 
 ```python
 async def io_bound_function(val, *, keyword_arg):
@@ -34,7 +34,7 @@ If it isn't obvious to you: time to study :)
 
 # Appendix: What LLMs say
 
-This isn't a particularly esoteric question or anything, but I wanted to see what LLMs think about it. Here's what a few of them say.
+This isn't a particularly esoteric question or anything, but I wanted to see what LLMs think about it. The prompt was exactly the text above, with the first and last paragraphs excluded. Here's what a few of them say.
 
 > [!example]- Claude 3.5 Sonnet
 > 
@@ -151,6 +151,7 @@ This isn't a particularly esoteric question or anything, but I wanted to see wha
 > 
 > > [!info] Verdict
 > > A bit wordy, but overall, the right answer. o1 in general is a bit wordy (not sure if this is intentional behavior), but it could be cut in half and still be right.
+
 
 > [!example]- Gemini 1206 Exp
 > You've hit upon a subtle but important distinction between synchronous and asynchronous programming models, and how that impacts API design. Here's a breakdown of why `concurrent.futures` and `asyncio` differ in their task submission approaches:

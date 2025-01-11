@@ -24,13 +24,15 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-is actually _deeply_ unsafe. Let me cite the (in)famous article that alerted me to this problem, [the heisenberg lurking in your async code](https://textual.textualize.io/blog/2023/02/11/the-heisenbug-lurking-in-your-async-code/). Here's also an excellent [stack overflow](https://stackoverflow.com/a/76823668/21551208) answer that goes a bit more in depth. In short, due to python's garbage collector, those `task_*` objects we created are weak references. Python's garbage collector doesn't understand that those `task_*` objects have a life after the `asyncio.gather`, and they may just be arbitrarily garbage collected by python, and never run.
+is _deeply_ unsafe. Let me cite the (in)famous article that alerted me to this problem, [the Heisenbug lurking in your async code](https://textual.textualize.io/blog/2023/02/11/the-heisenbug-lurking-in-your-async-code/). Here's also an excellent [stack overflow](https://stackoverflow.com/a/76823668/21551208) answer that goes a bit more in depth. In short, due to python's garbage collector, those `task_*` objects we created are weak references. Python's garbage collector doesn't understand that those `task_*` objects have a life after the `asyncio.gather`, and they may just be arbitrarily garbage collected by python, and never run.
 
 Why does python do this?  ¯\\\_(ツ)\_/¯. I would like to have a cordial conversation to whoever designed it this way. 
 
 In fact, the [asyncio docs for `create_task`](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) have a warning for this:
 
-![[running-a-bunch-of-futures-asyncio-docs.png]]Alright, fair, but I, like hundreds of millions developers, will skip text that's in a grey box. It needs to have red scary text, maybe outlined in red, and it should also have a popup in the browser. Guido Van Rossum should mail each IP address that has ever downloaded python a hand-written letter warning them of this. That's how serious this problem is.
+![[running-a-bunch-of-futures-asyncio-docs.png]]
+
+Alright, fair, but I, like hundreds of millions developers, will skip text that's in a grey box. It needs to have red scary text, maybe outlined in red, and it should also have a popup in the browser. Guido Van Rossum should mail each IP address that has ever downloaded python a hand-written letter warning them of this. That's how serious this problem is.
 
 The alternative solution, as the docs mention, is to use `asyncio.TaskGroup`. I actually _love_ the `asyncio.TaskGroup()` abstraction, and it serves its purpose well.
 
