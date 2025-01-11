@@ -24,7 +24,7 @@ public:
 		std::cout << "I have been destroyed :(" << std::endl;
 	}
 };
- 
+
 int main() {
 	auto verycoolobject = MyVeryCoolObject();
 	{
