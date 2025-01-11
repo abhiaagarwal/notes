@@ -79,13 +79,37 @@ import asyncio
 from collections.abc import Awaitable, Iterable
 from typing import TypeVar
 
-T = TypeVar("T")
+T = TypeVar("T") # for compatibility with python <=3.11
 
 
-async def run_futures(coros: Iterable[Awaitable[T]]) -> list[T]:
+async def gather_tg(coros: *Awaitable[T]) -> list[T]:
     async with asyncio.TaskGroup() as tg:
         tasks: list[asyncio.Task] = [tg.create_task(coro) for coro in coros]
     return [t.result() for t in tasks]
 ```
 
-Now, we can use it.
+Then, we can use it:
+
+```python
+async def func1(val: int) -> int:
+    return val
+
+async def func2(val: str) -> int:
+    return len(val)
+
+async def func3(val: str) -> str:
+    return val
+
+
+async def main() -> None:
+    results_1 = await gather_tg(*[func1(val) for val in range(5)])
+    print(results_1) # mypy thinks type is lint[int]
+
+    results_2 = await gather_tg(func1(1), func2("4"))
+    print(results_2) # mypy thinks type is lint[int]
+
+    results_3 = await gather_tg(func2("1"), func3("4"))
+    print(results_3) # mypy thinks type is lint[int | str]
+```
+
+Interestingly, `mypy` throws an error on the `[tg.create_task(coro) for coro in coros]` block, claiming that `Argument 1 to "create_task" of "TaskGroup" has incompatible type "Awaitable[T]"; expected "Coroutine[Any, Any, Any]. Mypy[arg-type]`.  But... it's right.
