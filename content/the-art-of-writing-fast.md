@@ -1,3 +1,9 @@
+---
+title: The art of writing fast
+tags:
+  - thoughts
+---
+
 I really want to become a better writer. My whole life, I've been paralyzed by my own poor prose, jealous of people who can communicate, and desperate to be one of them. I started this mini-blog as a way to develop those writing skills.
 
 Yet I don't write much. Well, I do. I write something, then I leave it in a half-finished state, then I scrap it. I get halfway through an idea, then discover something new about it, then leave it trapped in the prison of my mind, only to be forgotten and rediscovered a few months later.

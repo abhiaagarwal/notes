@@ -13,6 +13,8 @@ Now, I'm gonna tell you the reason this surprised me is that I'm really used to 
 Here's a toy example of the problem:
 
 ```cpp
+#include <iostream>
+
 class MyVeryCoolObject {
 public:
 	MyVeryCoolObject() {
