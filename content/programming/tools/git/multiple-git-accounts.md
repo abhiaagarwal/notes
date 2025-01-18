@@ -25,4 +25,4 @@ Now, in `/my/path`, create a `.gitconfig`:
 
 Everything nested under `/my/path` will use those git configs.
 
-Note this doesn't solve the issue of "how do I authenticate to github with multiple accounts", which... is its own can of worms. Maybe someday!
+Now, let's assume that you have two separate github accounts. Normally, managing this is a pain in the ass, leading to people [overriding]()
