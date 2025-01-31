@@ -38,7 +38,7 @@ We can instead do `TAG=my-branch docker compose build` ! Still, not optimal. It 
 Instead, we can use a justfile to calculate the tag dynamically and set the env variable.
 
 ```just
-export TAG=`(git rev-parse --abbrev-ref HEAD`
+export TAG=`(git rev-parse --abbrev-ref HEAD)`
 
 just up *FLAGS:
     docker compose up {{FLAGS}}
@@ -47,7 +47,7 @@ just up *FLAGS:
 Pretty cool! But this could create docker tags that aren't syntactically valid, like if the branch is called `my/FEATURE-branch`. Instead, we can normalize it, following exactly what gitlab does to generate [`CI_COMMIT_REF_SLUG`](https://gitlab.com/gitlab-org/gitlab-runner/-/blame/af6932352f8ed15d1a6d9c786399607bc6be2c2d/Makefile.build.mk?page=1#L25).
 
 ```just
-export TAG=`(git rev-parse --abbrev-ref HEAD) | tr '[:upper:]' '[:lower:]) | cut -c -63 | sed -E 's/[^a-z0-9-]+/-/g' | sed -E 's/^-*([a-z0-9-]+[a-z0-9])-*$$/\1/g')`
+export TAG=`(git rev-parse --abbrev-ref HEAD | tr '[:upper:]' '[:lower:] | cut -c -63 | sed -E 's/[^a-z0-9-]+/-/g' | sed -E 's/^-*([a-z0-9-]+[a-z0-9])-*$$/\1/g')`
 
 just up *FLAGS:
     docker compose up {{FLAGS}}
