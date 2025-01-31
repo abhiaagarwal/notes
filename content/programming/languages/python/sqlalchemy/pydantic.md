@@ -16,8 +16,7 @@ class PydanticModelType[T: BaseModel](TypeDecorator[T]):
     cache_ok = True
     impl = JSON()
 
-    def __init__(self, pydantic_type: type[T]) -> None:
-        self.pydantic_type = pydantic_type
+    def __init__(self) -> None:
         super().__init__()
 
     @override
