@@ -135,4 +135,4 @@ services:
 
 Let's say you're doing feature development on tag `my-feature`, but you need to switch to a new branch `my-hotfix` . You can `git switch`, and then with `just up`, it creates a set of containers entirely prefixed with `my-project-${TAG}` without conflicting with the original set of containers. If your spin up process is expensive, this can be a huge time-saver. 
 
-Additionally, if you have a local docker volume, say to persist database data, the volume is created with `my-project-${TAG}` as its prefix. Your data won't be polluted between branches, so you can perform database migrations, seeding, etc without getting into a funky state.
+Additionally, if you have a local docker volume, say to persist database data, the volume is created with `my-project-${TAG}` as its prefix. Your data won't be polluted between branches, so you can perform database migrations, seeding, etc without getting into a funky state.git p

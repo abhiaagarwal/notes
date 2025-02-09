@@ -1,0 +1,34 @@
+---
+title: Interview questions I've taken from the internet
+tags:
+  - notes
+---
+- Personality:
+    - [“ Tell me about the last time you had strong opinions about something and later changed your mind”](https://x.com/buccocapital/status/1886939147643793814)
+    - ["What was the last thing you taught yourself how to do? How did you learn it?”](https://x.com/buccocapital/status/1886939147643793814)
+    - ["Tell me about the most difficult feedback you’ve ever received? What was it and how have you changed based on the feedback?”](https://x.com/buccocapital/status/1886939147643793814)
+    - [“Tell me about a time you faced a crisis? What happened? What was the outcome? What did you learn about yourself?”](https://x.com/buccocapital/status/1886939147643793814)
+- Programming
+    - ["What's the code you wrote a long time ago that it still bugs you that you never got a chance to refactor?"](https://x.com/GrantSlatton/status/1888309119557464503)
+    - ["What does good code look like to you?"](https://www.reddit.com/r/ExperiencedDevs/comments/oket8j/comment/h58sb22/)
+        - Variation: "We've hired you, but two weeks from now, you've discovered there's some things we do here that you don't like. What would that be?"
+    - In your view, what is the hardest problem in software engineering?
+        - Good answers:
+            - Caching
+        - Best answer:
+            - Requirements gathering
+    - "Tell me about a time you *identified* a problem and solved it."
+        - I'm not interested in measuring a person's ability to problem solve tasks given to them, but rather, their ability to identify a _new_ problem, triage it, and then solve it.
+    - Python
+        - [[interview-question|When should you pick threading, multiprocessing, or asyncio]]?
+        - What are your favorite libraries?
+            - My brownie points:
+                - Pydantic
+                - Polars
+        - What _don't_ you like about Python?
+            - Lots of good answers here. They should have a _lot_ to say. The only wrong answer is not having anything to say.
+    - How do you keep up with what's going on in the industry?
+        - Software differentiates itself from other industries in that 
+- Ask them about an interesting OSS codebase they worked on / an article they read / whatever and ask them to share it with you _after_ the interview ("that sounds super interesting, can you send me an email after the interview?") and [they actually follow up](https://news.ycombinator.com/item?id=19076264).
+    - I _really_ like this question. The most important trait in any environment is responsiveness, in that people actually do the shit they say they're going to do.
+    - The article/whatever isn't important at all, brownie points I guess, but it's not what's being measured.
