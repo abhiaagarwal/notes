@@ -5,6 +5,7 @@ tags:
 ---
 
 - **What is Memoization?**
+
   - It's like a cheat sheet for expensive function calls. We cache the result and reuse it if the same inputs come up again. Classic example: Fibonacci numbers.
 
 - **Memoization in React:**
