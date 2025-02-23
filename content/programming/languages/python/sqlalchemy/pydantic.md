@@ -3,6 +3,7 @@ title: Pydantic models in SQLAlchemy
 tags:
   - observations
 ---
+
 Been using this snippet a lot recently in SQLAlchemy to have Pydantic models be de/serialized to JSON transparently for a nice abstraction.
 
 ```python
@@ -40,7 +41,7 @@ class PydanticModelType[T: BaseModel](TypeDecorator[T]):
         return value
 ```
 
-If using python<3.12, the `T` can be replaced with `T = TypeVar("T", bound=BaseModel)` and it should also subclass `Generic[T]`. 
+If using python<3.12, the `T` can be replaced with `T = TypeVar("T", bound=BaseModel)` and it should also subclass `Generic[T]`.
 
 Then, inside a subclass of `DeclarativeBase`, you can use with the modern `Mapped/mapped_column` syntax like:
 

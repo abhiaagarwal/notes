@@ -3,18 +3,19 @@ title: Using `just` to properly tag and isolate docker compose projects
 tags:
   - observations
 ---
-You're developing a dockerized application, so you have a docker compose stack. 
+
+You're developing a dockerized application, so you have a docker compose stack.
 
 ```yaml
 services:
-    frontend:
-        image: 'frontend:develop'
-        build:
-            context: ./frontend
-    backend:
-        image: 'backend:develop'
-        build:
-            context: ./backend
+  frontend:
+    image: "frontend:develop"
+    build:
+      context: ./frontend
+  backend:
+    image: "backend:develop"
+    build:
+      context: ./backend
 ```
 
 This is pretty neat, but it does mean that all your images are built with the tag `develop`. Let's say you switch to another branch, and you want to test the application there. You are _forced_ to rebuild, possibly `docker compose down -v` and lose your old image and state entirely if you want to switch back.
@@ -23,16 +24,16 @@ Instead, we can define the environment variable `TAG`, and then rewrite the dock
 
 ```yaml
 services:
-    frontend:
-        image: frontend:${TAG:-develop}
-        # alternatively, force tag to be set with
-        # image: frontend:${TAG?TAG not set}
-        build:
-            context: ./frontend
-    backend:
-        image: backend:${TAG:-develop}
-        build:
-            context: ./backend
+  frontend:
+    image: frontend:${TAG:-develop}
+    # alternatively, force tag to be set with
+    # image: frontend:${TAG?TAG not set}
+    build:
+      context: ./frontend
+  backend:
+    image: backend:${TAG:-develop}
+    build:
+      context: ./backend
 ```
 
 We can instead do `TAG=my-branch docker compose build`, and docker compose will interpolate it for you. Still, not optimal. It involves typing _at least_ 4 extra characters, and if you're anything like me, you're going to forget more often than not. We _could_ export it globally, but global terminal variables tend to be scary.
@@ -64,6 +65,7 @@ just up *FLAGS:
 ```
 
 This branch would get normalized to `my-feature-branch`, all lowercase.
+
 # Appendix
 
 ## Parity with CI
@@ -73,14 +75,14 @@ Let's say you have a CI/CD process that builds containers and pushes them to you
 ```yaml
 name: my-project-${TAG:-develop}
 services:
-    frontend:
-        image: ${REGISTRY}/frontend:${TAG:-develop}
-        build:
-            context: ./frontend
-    backend:
-        image: ${REGISTRY}/backend:${TAG:-develop}
-        build:
-            context: ./backend
+  frontend:
+    image: ${REGISTRY}/frontend:${TAG:-develop}
+    build:
+      context: ./frontend
+  backend:
+    image: ${REGISTRY}/backend:${TAG:-develop}
+    build:
+      context: ./backend
 ```
 
 Where `${REGISTRY}` is `gitlab.com:5050/my/project/registry` or whatever. Now, with a modified `justfile`:
@@ -103,36 +105,37 @@ For a bonus-bonus round, if you use buildkit caching ([github](https://docs.dock
 ```yaml
 name: my-project-${TAG:-develop}
 services:
-    frontend:
-        image: ${REGISTRY}/frontend:${TAG:-develop}$
-        build:
-            context: ./frontend
-        cache_from:
-        - ${REGISTRY}/frontend:buildcache
-    backend:
-        image: ${REGISTRY}/backend:${TAG:-develop}$
-        build:
-            context: ./backend
-        cache_from:
-        - ${REGISTRY}/frontend:buildcache
+  frontend:
+    image: ${REGISTRY}/frontend:${TAG:-develop}$
+    build:
+      context: ./frontend
+    cache_from:
+      - ${REGISTRY}/frontend:buildcache
+  backend:
+    image: ${REGISTRY}/backend:${TAG:-develop}$
+    build:
+      context: ./backend
+    cache_from:
+      - ${REGISTRY}/frontend:buildcache
 ```
+
 ## Using the tag to achieve pure isolation
 
-If you're running a multiple copies on your machine, say, to test multiple branches, you can use the `name` top-level element to achieve pure isolation between each stack. 
+If you're running a multiple copies on your machine, say, to test multiple branches, you can use the `name` top-level element to achieve pure isolation between each stack.
 
 ```yaml
 name: my-project-${TAG:-develop}
 services:
-    frontend:
-        image: frontend:${TAG:-develop}$
-        build:
-            context: ./frontend
-    backend:
-        image: backend:${TAG:-develop}$
-        build:
-            context: ./backend
+  frontend:
+    image: frontend:${TAG:-develop}$
+    build:
+      context: ./frontend
+  backend:
+    image: backend:${TAG:-develop}$
+    build:
+      context: ./backend
 ```
 
-Let's say you're doing feature development on tag `my-feature`, but you need to switch to a new branch `my-hotfix` . You can `git switch`, and then with `just up`, it creates a set of containers entirely prefixed with `my-project-${TAG}` without conflicting with the original set of containers. If your spin up process is expensive, this can be a huge time-saver. 
+Let's say you're doing feature development on tag `my-feature`, but you need to switch to a new branch `my-hotfix` . You can `git switch`, and then with `just up`, it creates a set of containers entirely prefixed with `my-project-${TAG}` without conflicting with the original set of containers. If your spin up process is expensive, this can be a huge time-saver.
 
 Additionally, if you have a local docker volume, say to persist database data, the volume is created with `my-project-${TAG}` as its prefix. Your data won't be polluted between branches, so you can perform database migrations, seeding, etc without getting into a funky state.git p
