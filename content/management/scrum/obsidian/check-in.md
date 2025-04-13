@@ -7,11 +7,11 @@ I'm a big fan of 1:1 meetings, especially as a means to close out a sprint and b
 
 ````eta
 ---
-date: <% tp.date.now("YYYY-MM-DD") %>
-time: <% tp.date.now("HH:mm") %>
+date: 2025-04-11
+time: 20:01
 team_member:
-project: <% tp.file.folder(true).split("/")[1] %>
-sprint_num: <% tp.file.folder(true).split("/")[3] %>
+project: programming
+sprint_num: python
 type: sprint-checkin
 ---
 # Sprint Check-in

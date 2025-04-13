@@ -4,6 +4,9 @@ tags:
 title: Tokenization is all you need
 ---
 
+> [!attention] Disclaimer (4/11/25)
+> I wrote this a couple years ago. Having more experience with LLMs on both a technical level and a professional level, I feel most of this article is misinformed / incorrect. I'm leaving it up because it's an interesting snapshot into what I was thinking as a true amateur, but I do not think it's really intelligent or worthwhile.
+
 A LLM, at the end of the day, is a fancy autocomplete. A fancy autocomplete that ingests a bunch of tokens, embeds them to "understand" the semantic context of said tokens, and then outputs a bunch of tokens based on statistical modeling.
 
 I've been thinking a lot recently about how we can make LLMs really start to do interesting things. The current meta (pun not intended) is to make the LLMs output structured info. Say we want the LLM to call a function, we simply tell the LLM "hey, here's my registry of functions" and we expect it to output JSON that describes how it wants to utilize these functions. Of course, is very buggy as LLM's do not understand what "JSON" is and instead understand the statistical nature of what JSON should look like, leading to the development of many fault-tolerant JSON parsers.

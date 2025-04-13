@@ -37,7 +37,7 @@ If it isn't obvious to you: time to study :)
 
 This isn't a particularly esoteric question or anything, but I wanted to see what LLMs think about it. The prompt was exactly the text above, with the first and last paragraphs excluded. Here's what a few of them say.
 
-> [!example]- Claude 3.5 Sonnet
+> [!example]- [[claude-sonnet-3.5|Claude Sonnet 3.5]]
 >
 > This is a great question about API design! Let me break down why these APIs are different and why the ProcessPoolExecutor/ThreadPoolExecutor can't use the same approach as TaskGroup.
 > The key difference lies in how these executors handle function execution:
